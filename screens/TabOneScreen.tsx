@@ -1,32 +1,107 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  FlatList,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform
+} from "react-native";
+import { Text, View } from "../components/Themed";
+import Checkbox from "../components/CheckBox";
+import TodoItem from "../components/ToDoItem";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+let id = 13;
 
-export default function TabOneScreen() {
+export default function ToDoScreen() {
+  const [title, setTitle] = useState("New ToDo");
+  const [todos, setTodos] = useState([
+    {
+      id: "1",
+      content: "Buy milk",
+      isCompleted: false,
+    },
+    {
+      id: "2",
+      content: "Buy cereals",
+      isCompleted: false,
+    },
+    {
+      id: "4",
+      content: "Pour milk",
+      isCompleted: false,
+    },{
+      id: "5",
+      content: "Pour milk",
+      isCompleted: false,
+    },{
+      id: "6",
+      content: "Pour milk",
+      isCompleted: false,
+    },{
+      id: "7",
+      content: "Pour milk",
+      isCompleted: false,
+    },{
+      id: "8",
+      content: "Pour milk",
+      isCompleted: false,
+    },{
+      id: "9",
+      content: "Pour milk",
+      isCompleted: false,
+    },{
+      id: "11",
+      content: "Pour milk",
+      isCompleted: false,
+    },
+  ]);
+
+  const createNewTodo = (atIndex: number) => {
+    const newTodo = [...todos];
+    newTodo.splice(atIndex, 0, {
+      id: id.toString(),
+      content: "",
+      isCompleted: false,
+    });
+    ++id;
+    setTodos(newTodo);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : 150}
+      style={{flex: 1}}
+    >
+      <View style={styles.container}>
+        <TextInput style={styles.title} value={title} onChangeText={setTitle} />
+        <FlatList
+          nestedScrollEnabled
+          removeClippedSubviews={false}
+          data={todos}
+          renderItem={({ item, index }) => (
+            <TodoItem todo={item} onSubmit={() => createNewTodo(index + 1)} />
+          )}
+          contentContainerStyle={{flexGrow: 1}}
+          keyExtractor={item => item.id}
+          style={{ width: "100%" }}
+        />
+      </View>
+      </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    padding: 12,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    width: "100%",
+    fontWeight: "bold",
+    color: "white",
+    marginBottom: 12,
   },
 });
