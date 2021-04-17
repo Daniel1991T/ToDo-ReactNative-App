@@ -7,6 +7,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import ProjectScreen from '../screens/ProjectScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import SplashScreen from '../screens/SplashScreen';
 import ToDoScreen from '../screens/ToDoScreen';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -31,18 +32,29 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen 
+        name="Splash" 
+        component={SplashScreen}
+        options={{
+          headerShown: false
+        }} />
+      <Stack.Screen 
         name="SignIn" 
         component={SignInScreen}
         options={{
-          title: 'Sign In' 
+          headerShown: false 
         }} />
       <Stack.Screen 
         name="SignUp" 
         component={SignUpScreen}
         options={{
-          title: 'Sign Up' 
+          headerShown: false
         }} />
-      <Stack.Screen name="Home" component={ProjectScreen} />
+      <Stack.Screen 
+        name="Home" 
+        component={ProjectScreen}
+        options={{
+          headerLeft: () => null
+        }} />
       <Stack.Screen name="ToDo" component={ToDoScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>

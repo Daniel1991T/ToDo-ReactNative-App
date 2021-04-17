@@ -3,6 +3,7 @@ export type RootStackParamList = {
   ToDo: undefined;
   SignIn: undefined;
   SignUp: undefined;
+  Splash: undefined;
   NotFound: undefined;
 };
 

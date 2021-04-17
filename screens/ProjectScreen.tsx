@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import ProjectItem from "../components/ProjectItem";
 import { Text, View } from "../components/Themed";
+import { CommonActions, useNavigation } from '@react-navigation/native';
 
 export default function ProjectScreen() {
+  const navigation = useNavigation();
+  
   const [project, setProject] = useState([{
     id: '1',
     title: 'Project 1',

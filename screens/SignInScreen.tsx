@@ -12,6 +12,7 @@ const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  navigation.canGoBack();
 
   const onSubmit = () => {
     // submit
