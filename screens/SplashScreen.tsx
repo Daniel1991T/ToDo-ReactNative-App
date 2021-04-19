@@ -1,22 +1,25 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import { useFonts } from "@expo-google-fonts/inter";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const SplashScreen = () => {
-  let [fontsLoaded] = useFonts({
-    "DelaGothicOan-Regular": require("../assets/fonts/DelaGothicOne-Regular.ttf"),
-  });
   const navigation = useNavigation();
   useEffect(() => {
-    if (isAuthentication()) {
-      navigation.navigate("Home");
-    } else {
-      navigation.navigate("SignIn");
-    }
+    const checkUser = async () => {
+      if (await isAuthentication()) {
+        navigation.navigate("Home");
+      } else {
+        navigation.navigate("SignIn");
+      }
+    };
+    checkUser()
   }, []);
-  const isAuthentication = () => {
-    return true;
+  const isAuthentication = async () => {
+    // await AsyncStorage.removeItem("token");
+    const token = await AsyncStorage.getItem("token");
+    console.log(token)
+    return !!token;
   };
   return (
     <View style={styles.container}>
@@ -38,6 +41,5 @@ const styles = StyleSheet.create({
     color: "white",
     marginVertical: 20,
     fontSize: 30,
-    fontFamily: "DelaGothicOan-Regular",
   },
 });

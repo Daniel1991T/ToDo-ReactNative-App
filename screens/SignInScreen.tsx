@@ -1,21 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation, gql } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
+
+const SIGN_IN_MUTATION = gql`
+  mutation signIn($email: String!, $password: String!) {
+    signIn(input: { email: $email, password: $password }) {
+      token
+      user {
+        id
+        name
+        email
+      }
+    }
+  }
+`;
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  navigation.canGoBack();
+
+  const [signIn, { data, error, loading }] = useMutation(SIGN_IN_MUTATION);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert("Invalid credentials. Try again!");
+    }
+  }, [error]);
+  useEffect(() => {
+    if (data) {
+      // save token and redirect Home
+      AsyncStorage.setItem("token", data.signIn.token).then(() =>
+        navigation.navigate("Home")
+      );
+    }
+  }, [data]);
 
   const onSubmit = () => {
-    // submit
+    signIn({ variables: { email, password } });
   };
   return (
     <View style={styles.container}>
