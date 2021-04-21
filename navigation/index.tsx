@@ -1,4 +1,4 @@
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
@@ -11,6 +11,7 @@ import SplashScreen from '../screens/SplashScreen';
 import ToDoScreen from '../screens/ToDoScreen';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import SettingScreen from '../screens/SettingScreen';
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -53,9 +54,10 @@ function RootNavigator() {
         name="Home" 
         component={ProjectScreen}
         options={{
-          headerLeft: () => null
+          headerLeft: () => null,
         }} />
       <Stack.Screen name="ToDo" component={ToDoScreen} />
+      <Stack.Screen name="Setting" component={SettingScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

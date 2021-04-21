@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, FlatList, Alert } from "react-native";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { StyleSheet, FlatList, Alert, Pressable } from "react-native";
 import ProjectItem from "../components/ProjectItem";
 import { View } from "../components/Themed";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery, gql } from "@apollo/client";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const MY_PROJECTS = gql`
 query myProjects {
@@ -17,6 +18,16 @@ query myProjects {
 
 export default function ProjectScreen() {
   const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable style={{marginRight: 10}} onPress={() => navigation.navigate("Setting")}>
+          <MaterialCommunityIcons name="account-settings" size={24} color="white" />
+        </Pressable>
+      )
+    })
+  }, [navigation])
 
   const [project, setProject] = useState([]);
   const {data, error, loading} = useQuery(MY_PROJECTS);

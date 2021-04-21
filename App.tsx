@@ -16,7 +16,7 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ height: 10}}>
         <ApolloProvider client={client}>
           <Navigation colorScheme={colorScheme} />
           <StatusBar />
